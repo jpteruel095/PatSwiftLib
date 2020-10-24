@@ -1,0 +1,6 @@
+framework module PatSwiftLib {
+  umbrella header "PatSwiftLib-umbrella.h"
+
+  export *
+  module * { export * }
+}

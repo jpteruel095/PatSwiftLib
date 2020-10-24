@@ -2,7 +2,7 @@ use_frameworks!
 
 target 'PatSwiftLib_Example' do
   pod 'PatSwiftLib', :path => '../'
-
+  
   target 'PatSwiftLib_Tests' do
     inherit! :search_paths
 
