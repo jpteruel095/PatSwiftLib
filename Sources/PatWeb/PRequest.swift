@@ -14,7 +14,7 @@ public typealias OptionalParameters = [String: Any?]
 public protocol PRequest{
     typealias RequestCompletionClosure = ([ResultingModel], Error?) -> Void
     
-    associatedtype ResultingModel
+    associatedtype ResultingModel = JSON
     
     // MARK: Route properties
     var path: String { get }
@@ -28,6 +28,7 @@ public protocol PRequest{
     var additionalParameters: OptionalParameters { get }
     
     // MARK: Request Handlers
+    var dictionarySearchNestedKeys: [String] { get }
     func serializeResponse(with object: Any, completion:RequestCompletionClosure?)
     
     // MARK: Request Logging
@@ -41,6 +42,11 @@ public extension PRequest{
     var method: HTTPMethod { .get }
     var encoding: ParameterEncoding? { nil }
     var requiresAuth: Bool { true }
+    
+    // MARK: Request Handlers
+    var dictionarySearchNestedKeys: [String] { [] }
+    
+    // MARK: Request Logging
     var shouldLog: Bool { true }
     var shouldLogRequest: Bool { true }
     var shouldLogResponse: Bool { true }
@@ -111,7 +117,8 @@ public extension PRequest{
                 print("Header: \(headers.dictionary.toJSONString())")
             }
             print("Method: \(method.rawValue)")
-            if let parameters = parameters{
+            if let parameters = parameters,
+               parameters.count > 0{
                 print("Parameters: \(parameters.toJSONString())")
             }
         }
@@ -214,11 +221,19 @@ public extension PRequest where ResultingModel == JSON{
 public extension PRequest where ResultingModel: Any & Mappable{
     func serializeResponse(with object: Any, completion: RequestCompletionClosure? = nil){
         print("Serialized mappable")
-        let json = JSON(object)
-        if let dictionaryObject = json.dictionaryObject,
-           let object = ResultingModel(JSON: dictionaryObject){
+        var json: JSON? = JSON(object)
+        
+        dictionarySearchNestedKeys.forEach { (key) in
+            json = json?.dictionary?[key]
+        }
+        
+        if let dictionaryObject = json?.dictionaryObject{
+            guard let object = ResultingModel(JSON: dictionaryObject) else{
+                completion?([], Helpers.makeError(with: "Could not parse object to \(ResultingModel.self)"))
+                return
+            }
             completion?([object], nil)
-        }else if let objectArray = json.array{
+        }else if let objectArray = json?.array{
             let objects = objectArray.compactMap({ json -> ResultingModel? in
                 guard let rawObject = json.dictionaryObject else{
                     return nil
@@ -226,6 +241,8 @@ public extension PRequest where ResultingModel: Any & Mappable{
                 return ResultingModel(JSON: rawObject)
             })
             completion?(objects, nil)
+        }else{
+            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
         }
     }
 }

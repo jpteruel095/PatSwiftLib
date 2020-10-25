@@ -31,6 +31,7 @@ public extension PRequest{
         var keys = [
             "method",
             "path",
+            "dictionarySearchNestedKeys",
         ]
         keys.append(contentsOf: excludedKeys)
         return keys
