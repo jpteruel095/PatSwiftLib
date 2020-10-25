@@ -1,7 +1,10 @@
+platform :ios, '11.0'
 use_frameworks!
 
 target 'PatSwiftLib_Example' do
   pod 'PatSwiftLib', :path => '../'
+  pod 'Alamofire', '~> 5.2'
+  pod 'SwiftyJSON', '~> 4.0'
   
   target 'PatSwiftLib_Tests' do
     inherit! :search_paths
