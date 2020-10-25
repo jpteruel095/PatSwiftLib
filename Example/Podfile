@@ -6,8 +6,8 @@ target 'PatSwiftLib_Example' do
   
   # Dependencies
   pod 'Alamofire', '~> 5.2'
-  pod 'SwiftyJSON', '~> 4.0'
-  pod 'ObjectMapper', '~> 3.5'
+  pod 'SwiftyJSON', '~> 5.0.0'
+  pod 'ObjectMapper', '~> 4.2.0'
   
   target 'PatSwiftLib_Tests' do
     inherit! :search_paths

@@ -39,6 +39,6 @@ Pod::Spec.new do |s|
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
    s.dependency 'Alamofire', '~> 5.2'
-   s.dependency 'SwiftyJSON', '~> 4.0'
-   s.dependency 'ObjectMapper', '~> 3.5'
+   s.dependency 'SwiftyJSON', '~> 5.0.0'
+   s.dependency 'ObjectMapper', '~> 4.2.0'
 end

@@ -9,26 +9,38 @@ import Alamofire
 import SwiftyJSON
 import ObjectMapper
 
+public typealias OptionalParameters = [String: Any?]
+
 public protocol PRequest{
     typealias RequestCompletionClosure = ([ResultingModel], Error?) -> Void
     
     associatedtype ResultingModel
     
+    // MARK: Route properties
     var path: String { get }
     var method: HTTPMethod { get }
     var encoding: ParameterEncoding? { get }
+    var requiresAuth: Bool { get }
     
+    // MARK: Parameters customization
+    var excludedKeys: [String] { get }
+    var includedKeys: [String] { get }
+    var additionalParameters: OptionalParameters { get }
+    
+    // MARK: Request Handlers
     func serializeResponse(with object: Any, completion:RequestCompletionClosure?)
     
+    // MARK: Request Logging
     var shouldLog: Bool { get }
     var shouldLogRequest: Bool { get }
     var shouldLogResponse: Bool { get }
 }
 
 public extension PRequest{
-    
+    // MARK: Route Extension
     var method: HTTPMethod { .get }
     var encoding: ParameterEncoding? { nil }
+    var requiresAuth: Bool { true }
     var shouldLog: Bool { true }
     var shouldLogRequest: Bool { true }
     var shouldLogResponse: Bool { true }
@@ -36,32 +48,24 @@ public extension PRequest{
     var url: URL{
         return URL(string: "\(PWeb.shared.defaults.host)\(self.path)")!
     }
+    
     /**
      Returns the headers for specific endpoints. If the endpoint is a guest endpoint and no token is saved,
      the header is null.
      */
     var headers: HTTPHeaders?{
-        var headers = HTTPHeaders([])
+        var headers = [HTTPHeader]()
         
-//        if !self.isGuest{
-//            if let current = User.current,
-//                let accessToken = current.accessToken{
-//                headers["Authorization"] = "Bearer \(accessToken)"
-//            }else{
-//                return nil
-//            }
-//        }
-//
-//        if self.requiresWalletSession{
-//            guard let session = WalletSession.current else{
-//                return nil
-//            }
-//
-//            headers["Wallet-Session-Id"] = session.session_id
-//            headers["Wallet-Token-Id"] = session.tokenId
-//        }
+        if requiresAuth{
+            if let accessToken = PWeb.shared.authHeaderClosure(){
+                headers.append(HTTPHeader(name: "Authorization",
+                                          value: "Bearer \(accessToken)"))
+            }else{
+                return nil
+            }
+        }
         
-        return headers
+        return HTTPHeaders(headers)
     }
     
     var parameterEncoding: ParameterEncoding{
@@ -85,8 +89,7 @@ public extension PRequest{
         - shouldLog: Specified to allow the current requet log before request and response.
         - shouldLogResult: If request is allowed to log, user can choose to not log the result.
      */
-    func request(parameters: Parameters? = nil,
-                 progressCallback:((Progress) -> Void)? = nil,
+    func request(progressCallback:((Progress) -> Void)? = nil,
                  completion:RequestCompletionClosure? = nil)
     {
         //Check for headers available for the route
@@ -104,7 +107,9 @@ public extension PRequest{
         // or not.
         if shouldLog && shouldLogRequest{
             print("Request URL: \(url.absoluteString)")
-            print("Header: \(headers.dictionary.toJSONString())")
+            if headers.count > 0{
+                print("Header: \(headers.dictionary.toJSONString())")
+            }
             print("Method: \(method.rawValue)")
             if let parameters = parameters{
                 print("Parameters: \(parameters.toJSONString())")

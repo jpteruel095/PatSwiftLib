@@ -7,16 +7,24 @@
 
 import Foundation
 
+public typealias AuthHeaderClosure = () -> String?
 open class PWeb{
-    public static var shared = PWeb(defaults: PWebDefaults())
-    public class func configure(with domain: String, scheme: String = "http"){
+    public static var shared = PWeb(defaults: PWebDefaults(),
+                                    authHeaderClosure: {""})
+    public class func configure(domain: String,
+                                scheme: String = "http",
+                                authHeaderClosure: @escaping AuthHeaderClosure){
         shared = PWeb(defaults: PWebDefaults(domain: domain,
-                                             scheme: scheme))
+                                             scheme: scheme),
+                      authHeaderClosure: authHeaderClosure)
     }
     
     var defaults: PWebDefaults
-    
-    init(defaults: PWebDefaults) {
+    var authHeaderClosure: AuthHeaderClosure
+    init(defaults: PWebDefaults, authHeaderClosure: @escaping AuthHeaderClosure) {
         self.defaults = defaults
+        self.authHeaderClosure = authHeaderClosure
     }
+    
+    
 }
