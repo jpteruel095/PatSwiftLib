@@ -15,10 +15,20 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+}
 
+extension ViewController{
+    func refreshProducts(){
+        ProductRequest().request(completion:{ (products, error) in
+            if let error = error{
+                print(error)
+                return
+            }
+            
+            products.forEach { (product) in
+                print(product)
+            }
+        })
+    }
 }
 

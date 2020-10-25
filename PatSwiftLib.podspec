@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'Classes/**/*'
+  s.source_files = 'Sources/**/*'
   
   # s.resource_bundles = {
   #   'PatSwiftLib' => ['PatSwiftLib/Assets/*.png']
@@ -40,4 +40,5 @@ Pod::Spec.new do |s|
   # s.frameworks = 'UIKit', 'MapKit'
    s.dependency 'Alamofire', '~> 5.2'
    s.dependency 'SwiftyJSON', '~> 4.0'
+   s.dependency 'ObjectMapper', '~> 3.5'
 end

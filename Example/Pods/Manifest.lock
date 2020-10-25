@@ -11,8 +11,10 @@ PODS:
   - Nimble-Snapshots/Core (6.3.0):
     - FBSnapshotTestCase (~> 2.0)
     - Nimble (~> 7.0)
+  - ObjectMapper (3.5.3)
   - PatSwiftLib (0.1.1):
     - Alamofire (~> 5.2)
+    - ObjectMapper (~> 3.5)
     - SwiftyJSON (~> 4.0)
   - Quick (1.2.0)
   - SwiftyJSON (4.3.0)
@@ -22,6 +24,7 @@ DEPENDENCIES:
   - FBSnapshotTestCase (~> 2.1.4)
   - Nimble (~> 7.0)
   - Nimble-Snapshots (~> 6.3.0)
+  - ObjectMapper (~> 3.5)
   - PatSwiftLib (from `../`)
   - Quick (~> 1.2.0)
   - SwiftyJSON (~> 4.0)
@@ -32,6 +35,7 @@ SPEC REPOS:
     - FBSnapshotTestCase
     - Nimble
     - Nimble-Snapshots
+    - ObjectMapper
     - Quick
     - SwiftyJSON
 
@@ -44,10 +48,11 @@ SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Nimble: 051e3d8912d40138fa5591c78594f95fb172af37
   Nimble-Snapshots: f5459b5b091678dc942d03ec4741cacb58ba4a52
-  PatSwiftLib: e8196801ee43fd97c14fa1909b5b70a4c6e6af53
+  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
+  PatSwiftLib: 1cdaa51f36d269213bd974ba0873f83a5a65e7d9
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: bd6bce01c38178caa920aaebdc063b84505b2a05
+PODFILE CHECKSUM: 672a651233f7c7f229502aa7f1665125e7c4078e
 
 COCOAPODS: 1.10.0

@@ -10,5 +10,7 @@ import PatSwiftLib
 import Alamofire
 
 struct ProductRequest: PRequest {
+    typealias ResultingModel = Product
+    
     let path: String = "api/products"
 }

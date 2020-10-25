@@ -7,8 +7,11 @@
 
 import Alamofire
 import SwiftyJSON
+import ObjectMapper
 
 public protocol PRequest{
+    associatedtype ResultingModel: Any & Mappable
+    
     var path: String { get }
     var method: HTTPMethod { get }
     var encoding: ParameterEncoding? { get }
@@ -33,9 +36,7 @@ public extension PRequest{
      the header is null.
      */
     var headers: HTTPHeaders?{
-        var headers = HTTPHeaders([
-//            HTTPHeader(name: "Accept", value: "application/json")
-        ])
+        var headers = HTTPHeaders([])
         
 //        if !self.isGuest{
 //            if let current = User.current,
@@ -81,14 +82,14 @@ public extension PRequest{
      */
     func request(parameters: Parameters? = nil,
                  progressCallback:((Progress) -> Void)? = nil,
-                 completion:((JSON?, Error?) -> Void)? = nil)
+                 completion:((Array<ResultingModel>, Error?) -> Void)? = nil)
     {
         //Check for headers available for the route
         //If the current request is a guest,
         // the header is not null
         guard let headers = headers else {
             if let completion = completion{
-                completion(nil, Helpers.makeError(with: "Unauthorized access. Token may have expired."))
+                completion([], Helpers.makeError(with: "Unauthorized access. Token may have expired."))
                 //must implement a force logout functionality here
             }
             return
@@ -120,13 +121,83 @@ public extension PRequest{
                     }
                 }
         }).responseJSON(completionHandler: { (response) in
-//            self.handleResponseJSON(parameters: parameters,
-//                                    progressCallback: progressCallback,
-//                                    completion: completion,
-//                                    shouldLog: shouldLog,
-//                                    shouldLogRequest: shouldLogRequest,
-//                                    shouldLogResult: shouldLogResult,
-//                                    response: response)
+            self.handleResponseJSON(parameters: parameters,
+                                    response: response,
+                                    progressCallback: progressCallback,
+                                    completion: completion)
         })
+    }
+    
+    fileprivate func handleResponseJSON(parameters: Parameters? = nil,
+                                        response: DataResponse<Any, AFError>,
+                                        progressCallback:((Progress) -> Void)? = nil,
+                                        completion:((Array<ResultingModel>, Error?) -> Void)? = nil)
+    {
+        //The developer can choose to log the result specifically.
+        // If the logging of request was disabled by default,
+        // The result will not be logged either.
+        if shouldLog && shouldLogResponse{
+            print("Response for URL: \(url.absoluteString)")
+            do{
+                let raw = try response.result.get()
+                guard let json = JSON(raw).dictionaryObject else{
+                    print(JSON(raw))
+                    return
+                }
+                print(json.toJSONString())
+            }catch{
+                print(error)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            //error is not being thrown if the token is not expired from the backend
+            //so better handle it in this block
+            if let statusCode = response.response?.statusCode,
+                    statusCode != 200{
+                print("Status \(statusCode)")
+                print(response)
+                if statusCode == 404{
+                    // handle 404
+                    return
+                }
+                else if statusCode == 401{
+                    // handle 401
+                    return
+                }
+                else if statusCode == 403{
+                    // handle 403
+                }
+                else if statusCode == 500{
+                    // handle 500
+                }
+            }
+            
+            switch response.result{
+            case .success(let json):
+                let json = JSON(json)
+                if let dictionaryObject = json.dictionaryObject,
+                   let object = ResultingModel(JSON: dictionaryObject){
+                    completion?([object], nil)
+                }else if let objectArray = json.array{
+                    let objects = objectArray.compactMap({ json -> ResultingModel? in
+                        guard let rawObject = json.dictionaryObject else{
+                            return nil
+                        }
+                        return ResultingModel(JSON: rawObject)
+                    })
+                    completion?(objects, nil)
+                }
+                break
+            case .failure(let error):
+                print("An error occured while attempting to process the request")
+                print(error)
+                if error.localizedDescription.lowercased().contains("offline"){
+                    completion?([], Helpers.makeOfflineError())
+                }else{
+                    completion?([], error)
+                }
+            }
+        }
     }
 }

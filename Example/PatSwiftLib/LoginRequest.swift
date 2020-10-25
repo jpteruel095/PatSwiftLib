@@ -9,7 +9,9 @@
 import PatSwiftLib
 import Alamofire
 
-struct LoginRequest: PRequest {
-    let path: String = "api/login"
-    let method: HTTPMethod = .post
-}
+//struct LoginRequest: PRequest {
+//    typealias ResultingObject = 
+//    
+//    let path: String = "api/login"
+//    let method: HTTPMethod = .post
+//}

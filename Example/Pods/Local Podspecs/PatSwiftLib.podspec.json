@@ -19,13 +19,16 @@
   "platforms": {
     "ios": "11.0"
   },
-  "source_files": "Classes/**/*",
+  "source_files": "Sources/**/*",
   "dependencies": {
     "Alamofire": [
       "~> 5.2"
     ],
     "SwiftyJSON": [
       "~> 4.0"
+    ],
+    "ObjectMapper": [
+      "~> 3.5"
     ]
   },
   "swift_version": "5.0"
