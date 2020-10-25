@@ -15,8 +15,9 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		C0C47497B426518790A13079 /* Pods_PatSwiftLib_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58654B25391B1D05943F6F69 /* Pods_PatSwiftLib_Tests.framework */; };
-		C60B7321254532D9003932C0 /* ProductRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60B7320254532D9003932C0 /* ProductRequest.swift */; };
+		C60B7321254532D9003932C0 /* ProductsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60B7320254532D9003932C0 /* ProductsRequest.swift */; };
 		C60B742E25453B68003932C0 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60B742D25453B68003932C0 /* Product.swift */; };
+		C60B744025454458003932C0 /* StandardResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60B743F25454458003932C0 /* StandardResponse.swift */; };
 		C6E5840625449492003DFDBD /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E5840525449492003DFDBD /* LoginRequest.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,8 +49,9 @@
 		9975F1B8729CFDC4BF50D5D4 /* Pods-PatSwiftLib_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatSwiftLib_Tests.debug.xcconfig"; path = "Target Support Files/Pods-PatSwiftLib_Tests/Pods-PatSwiftLib_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		A13BE9D2F331F35FAC3EA88F /* Pods-PatSwiftLib_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatSwiftLib_Example.release.xcconfig"; path = "Target Support Files/Pods-PatSwiftLib_Example/Pods-PatSwiftLib_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C5914F39AB28F4A0B57E0CAA /* Pods-PatSwiftLib_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatSwiftLib_Example.debug.xcconfig"; path = "Target Support Files/Pods-PatSwiftLib_Example/Pods-PatSwiftLib_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		C60B7320254532D9003932C0 /* ProductRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductRequest.swift; sourceTree = "<group>"; };
+		C60B7320254532D9003932C0 /* ProductsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsRequest.swift; sourceTree = "<group>"; };
 		C60B742D25453B68003932C0 /* Product.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
+		C60B743F25454458003932C0 /* StandardResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardResponse.swift; sourceTree = "<group>"; };
 		C6E5840525449492003DFDBD /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		D62ADE126E6FB0B45F301F66 /* PatSwiftLib.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = PatSwiftLib.podspec; path = ../PatSwiftLib.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D98D90958630FDF5D4398C78 /* Pods_PatSwiftLib_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatSwiftLib_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +160,7 @@
 		C60B742C25453B5C003932C0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C60B743F25454458003932C0 /* StandardResponse.swift */,
 				C60B742D25453B68003932C0 /* Product.swift */,
 			);
 			name = Models;
@@ -176,7 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				C6E5840525449492003DFDBD /* LoginRequest.swift */,
-				C60B7320254532D9003932C0 /* ProductRequest.swift */,
+				C60B7320254532D9003932C0 /* ProductsRequest.swift */,
 			);
 			name = Requests;
 			sourceTree = "<group>";
@@ -398,7 +401,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6E5840625449492003DFDBD /* LoginRequest.swift in Sources */,
-				C60B7321254532D9003932C0 /* ProductRequest.swift in Sources */,
+				C60B744025454458003932C0 /* StandardResponse.swift in Sources */,
+				C60B7321254532D9003932C0 /* ProductsRequest.swift in Sources */,
 				C60B742E25453B68003932C0 /* Product.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

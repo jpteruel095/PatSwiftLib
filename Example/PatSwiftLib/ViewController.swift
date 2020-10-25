@@ -13,13 +13,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.refreshProducts()
     }
 
+    @IBAction func didTapRefreshButton(_ sender: Any) {
+        self.refreshProducts()
+    }
 }
 
 extension ViewController{
     func refreshProducts(){
-        ProductRequest().request(completion:{ (products, error) in
+        ProductsRequest().request(completion:{ (products, error) in
             if let error = error{
                 print(error)
                 return

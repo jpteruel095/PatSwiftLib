@@ -10,11 +10,15 @@ import SwiftyJSON
 import ObjectMapper
 
 public protocol PRequest{
-    associatedtype ResultingModel: Any & Mappable
+    typealias RequestCompletionClosure = ([ResultingModel], Error?) -> Void
+    
+    associatedtype ResultingModel
     
     var path: String { get }
     var method: HTTPMethod { get }
     var encoding: ParameterEncoding? { get }
+    
+    func serializeResponse(with object: Any, completion:RequestCompletionClosure?)
     
     var shouldLog: Bool { get }
     var shouldLogRequest: Bool { get }
@@ -22,6 +26,7 @@ public protocol PRequest{
 }
 
 public extension PRequest{
+    
     var method: HTTPMethod { .get }
     var encoding: ParameterEncoding? { nil }
     var shouldLog: Bool { true }
@@ -82,7 +87,7 @@ public extension PRequest{
      */
     func request(parameters: Parameters? = nil,
                  progressCallback:((Progress) -> Void)? = nil,
-                 completion:((Array<ResultingModel>, Error?) -> Void)? = nil)
+                 completion:RequestCompletionClosure? = nil)
     {
         //Check for headers available for the route
         //If the current request is a guest,
@@ -121,17 +126,17 @@ public extension PRequest{
                     }
                 }
         }).responseJSON(completionHandler: { (response) in
-            self.handleResponseJSON(parameters: parameters,
+            self.handleResponse(parameters: parameters,
                                     response: response,
                                     progressCallback: progressCallback,
                                     completion: completion)
         })
     }
     
-    fileprivate func handleResponseJSON(parameters: Parameters? = nil,
+    fileprivate func handleResponse(parameters: Parameters? = nil,
                                         response: DataResponse<Any, AFError>,
                                         progressCallback:((Progress) -> Void)? = nil,
-                                        completion:((Array<ResultingModel>, Error?) -> Void)? = nil)
+                                        completion:RequestCompletionClosure? = nil)
     {
         //The developer can choose to log the result specifically.
         // If the logging of request was disabled by default,
@@ -140,11 +145,12 @@ public extension PRequest{
             print("Response for URL: \(url.absoluteString)")
             do{
                 let raw = try response.result.get()
-                guard let json = JSON(raw).dictionaryObject else{
-                    print(JSON(raw))
-                    return
+                let json = JSON(raw)
+                if let rawString = json.rawString(){
+                    print(rawString)
+                }else{
+                    print(json)
                 }
-                print(json.toJSONString())
             }catch{
                 print(error)
             }
@@ -153,10 +159,8 @@ public extension PRequest{
         DispatchQueue.main.async {
             //error is not being thrown if the token is not expired from the backend
             //so better handle it in this block
-            if let statusCode = response.response?.statusCode,
-                    statusCode != 200{
+            if let statusCode = response.response?.statusCode{
                 print("Status \(statusCode)")
-                print(response)
                 if statusCode == 404{
                     // handle 404
                     return
@@ -175,19 +179,7 @@ public extension PRequest{
             
             switch response.result{
             case .success(let json):
-                let json = JSON(json)
-                if let dictionaryObject = json.dictionaryObject,
-                   let object = ResultingModel(JSON: dictionaryObject){
-                    completion?([object], nil)
-                }else if let objectArray = json.array{
-                    let objects = objectArray.compactMap({ json -> ResultingModel? in
-                        guard let rawObject = json.dictionaryObject else{
-                            return nil
-                        }
-                        return ResultingModel(JSON: rawObject)
-                    })
-                    completion?(objects, nil)
-                }
+                self.serializeResponse(with: json, completion: completion)
                 break
             case .failure(let error):
                 print("An error occured while attempting to process the request")
@@ -198,6 +190,37 @@ public extension PRequest{
                     completion?([], error)
                 }
             }
+        }
+    }
+    
+    func serializeResponse(with object: Any, completion:RequestCompletionClosure? = nil){
+        print("Serialized regular")
+        completion?([object as? ResultingModel].compactMap({$0}), nil)
+    }
+}
+
+public extension PRequest where ResultingModel == JSON{
+    func serializeResponse(with object: Any, completion: RequestCompletionClosure? = nil){
+        print("Serialized JSON")
+        completion?([ResultingModel(object)], nil)
+    }
+}
+
+public extension PRequest where ResultingModel: Any & Mappable{
+    func serializeResponse(with object: Any, completion: RequestCompletionClosure? = nil){
+        print("Serialized mappable")
+        let json = JSON(object)
+        if let dictionaryObject = json.dictionaryObject,
+           let object = ResultingModel(JSON: dictionaryObject){
+            completion?([object], nil)
+        }else if let objectArray = json.array{
+            let objects = objectArray.compactMap({ json -> ResultingModel? in
+                guard let rawObject = json.dictionaryObject else{
+                    return nil
+                }
+                return ResultingModel(JSON: rawObject)
+            })
+            completion?(objects, nil)
         }
     }
 }

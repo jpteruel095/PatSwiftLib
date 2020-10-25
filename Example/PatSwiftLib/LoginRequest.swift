@@ -8,10 +8,11 @@
 
 import PatSwiftLib
 import Alamofire
+import SwiftyJSON
 
-//struct LoginRequest: PRequest {
-//    typealias ResultingObject = 
-//    
-//    let path: String = "api/login"
-//    let method: HTTPMethod = .post
-//}
+struct LoginRequest: PRequest {
+    typealias ResultingModel = JSON
+    
+    let path: String = "api/login"
+    let method: HTTPMethod = .post
+}
