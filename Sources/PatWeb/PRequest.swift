@@ -10,16 +10,18 @@ import SwiftyJSON
 import ObjectMapper
 
 public typealias OptionalParameters = [String: Any?]
+public typealias DefaultModel = JSON
+public typealias WebMethod = HTTPMethod
 
 public protocol PRequest{
-    typealias RequestCompletionSingleClosure = (ResultingModel?, Error?) -> Void
-    typealias RequestCompletionMultipleClosure = ([ResultingModel], Error?) -> Void
+    typealias RequestCompletionSingleClosure = (ResultModel?, Error?) -> Void
+    typealias RequestCompletionMultipleClosure = ([ResultModel], Error?) -> Void
     
-    associatedtype ResultingModel = JSON
+    associatedtype ResultModel
     
     // MARK: Route properties
     var path: String { get }
-    var method: HTTPMethod { get }
+    var method: WebMethod { get }
     var encoding: ParameterEncoding? { get }
     var requiresAuth: Bool { get }
     

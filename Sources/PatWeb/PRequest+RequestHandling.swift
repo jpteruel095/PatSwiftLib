@@ -22,7 +22,7 @@ public extension PRequest{
             }
             
             guard let model = models.first else{
-                completion(nil, Helpers.makeError(with: "Could not retrieve \(ResultingModel.self) record"))
+                completion(nil, Helpers.makeError(with: "Could not retrieve \(ResultModel.self) record"))
                 return
             }
             
@@ -43,7 +43,7 @@ public extension PRequest{
             }
             
             guard let model = models.first else{
-                completion(nil, Helpers.makeError(with: "Could not retrieve \(ResultingModel.self) record"))
+                completion(nil, Helpers.makeError(with: "Could not retrieve \(ResultModel.self) record"))
                 return
             }
             
@@ -173,18 +173,18 @@ public extension PRequest{
     
     func serializeResponse(with object: Any, completion:RequestCompletionMultipleClosure? = nil){
         print("Serialized regular")
-        completion?([object as? ResultingModel].compactMap({$0}), nil)
+        completion?([object as? ResultModel].compactMap({$0}), nil)
     }
 }
 
-public extension PRequest where ResultingModel == JSON{
+public extension PRequest where ResultModel == JSON{
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized JSON")
-        completion?([ResultingModel(object)], nil)
+        completion?([ResultModel(object)], nil)
     }
 }
 
-public extension PRequest where ResultingModel: Any & Mappable{
+public extension PRequest where ResultModel: Any & Mappable{
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized mappable")
         var json: JSON? = JSON(object)
@@ -194,17 +194,17 @@ public extension PRequest where ResultingModel: Any & Mappable{
         }
         
         if let dictionaryObject = json?.dictionaryObject{
-            guard let object = ResultingModel(JSON: dictionaryObject) else{
-                completion?([], Helpers.makeError(with: "Could not parse object to \(ResultingModel.self)"))
+            guard let object = ResultModel(JSON: dictionaryObject) else{
+                completion?([], Helpers.makeError(with: "Could not parse object to \(ResultModel.self)"))
                 return
             }
             completion?([object], nil)
         }else if let objectArray = json?.array{
-            let objects = objectArray.compactMap({ json -> ResultingModel? in
+            let objects = objectArray.compactMap({ json -> ResultModel? in
                 guard let rawObject = json.dictionaryObject else{
                     return nil
                 }
-                return ResultingModel(JSON: rawObject)
+                return ResultModel(JSON: rawObject)
             })
             completion?(objects, nil)
         }else{
