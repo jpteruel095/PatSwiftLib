@@ -24,6 +24,7 @@ public protocol PRequest{
     var method: WebMethod { get }
     var encoding: ParameterEncoding? { get }
     var requiresAuth: Bool { get }
+    var additionalHeadersClosure: (() -> [HTTPHeader])? { get }
     
     // MARK: Parameters customization
     var excludedKeys: [String] { get }
@@ -45,6 +46,7 @@ public extension PRequest{
     var method: HTTPMethod { .get }
     var encoding: ParameterEncoding? { nil }
     var requiresAuth: Bool { true }
+    var additionalHeadersClosure: (() -> [HTTPHeader])? { nil }
     
     // MARK: Request Handlers
     var dictionarySearchNestedKeys: [String] { [] }
@@ -71,6 +73,15 @@ public extension PRequest{
                                           value: "Bearer \(accessToken)"))
             }else{
                 return nil
+            }
+            
+            if let closure = additionalHeadersClosure{
+                let additionalHeaders = closure()
+                if additionalHeaders.count > 0{
+                    headers.append(contentsOf: additionalHeaders)
+                }else{
+                    return nil
+                }
             }
         }
         
