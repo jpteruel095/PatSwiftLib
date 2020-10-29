@@ -141,21 +141,10 @@ public extension PEndpoint{
             if let statusCode = response.response?.statusCode{
                 print("Status \(statusCode)")
                 if statusCode != 200{
-                    if statusCode == 404{
-                        // handle 404
+                    if let handler = PWeb.shared.statusN200Handler,
+                       handler(statusCode){
                         PWeb.shared.runningRequests -= 1
                         return
-                    }
-                    else if statusCode == 401{
-                        // handle 401
-                        PWeb.shared.runningRequests -= 1
-                        return
-                    }
-                    else if statusCode == 403{
-                        // handle 403
-                    }
-                    else if statusCode == 500{
-                        // handle 500
                     }
                 }
             }
