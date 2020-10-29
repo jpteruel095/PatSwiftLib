@@ -179,6 +179,20 @@ public extension PRequest{
     
     func serializeResponse(with object: Any, completion:RequestCompletionMultipleClosure? = nil){
         print("Serialized regular")
+        var json: JSON? = JSON(object)
+        
+        dictionarySearchNestedKeys.forEach { (key) in
+            json = json?.dictionary?[key]
+        }
+        
+        if let arrayObject = json?.arrayObject{
+            let array = arrayObject.compactMap({$0 as? ResultModel})
+            completion?(array, nil)
+        }else if let object = json?.object as? ResultModel{
+            completion?([object], nil)
+        }else{
+            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+        }
         completion?([object as? ResultModel].compactMap({$0}), nil)
     }
 }
@@ -194,12 +208,11 @@ public extension PRequest where ResultModel == JSON{
         
         if let array = json?.array{
            completion?(array, nil)
-       }else if let dictionary = json{
-            completion?([dictionary], nil)
+       }else if let json = json{
+            completion?([json], nil)
         }else{
             completion?([], Helpers.makeError(with: "Could not parse JSON!"))
         }
-        completion?([ResultModel(object)], nil)
     }
 }
 
