@@ -12,8 +12,8 @@ public protocol PParameters {
     var excludedKeys: [String] { get }
     var includedKeys: [String] { get }
     var additionalParameters: OptionalParameters { get }
+    var defaultExcludedKeys: [String]{ get }
 }
-
 
 public extension PParameters{
     // MARK: Request Parameters Extension
@@ -36,16 +36,13 @@ public extension PParameters{
     }
     
     var defaultExcludedKeys: [String]{
-        var keys = [
-            "method",
-            "path",
-            "dictionarySearchNestedKeys",
-        ]
+        var keys = [String]()
         keys.append(contentsOf: excludedKeys)
         return keys
     }
+    
     ///Returns the default Parameters with keys based from the variable names
-    var parameters: Parameters?{
+    func getParameters() -> Parameters?{
         var parameters: Parameters = [:]
         
         var listPropertiesWithValues: ((Mirror?) -> Void)!
@@ -70,6 +67,18 @@ public extension PParameters{
         
         let additional = additionalParameters.compactMapValues({$0})
         return parameters.merging(additional){ _, new in new }
+    }
+}
+
+public extension PParameters where Self: PEndpoint{
+    var defaultExcludedKeys: [String]{
+        var keys = [
+            "method",
+            "path",
+            "dictionarySearchNestedKeys",
+        ]
+        keys.append(contentsOf: excludedKeys)
+        return keys
     }
 }
 

@@ -40,6 +40,12 @@ public protocol PEndpoint{
     var shouldLogResponse: Bool { get }
 }
 
+public extension PEndpoint where Self: PParameters, ParameterType == Self{
+    var parameters: ParameterType? {
+        return self
+    }
+}
+
 public extension PEndpoint{
     // MARK: Route Extension
     var method: HTTPMethod { .get }

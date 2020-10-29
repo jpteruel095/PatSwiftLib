@@ -83,7 +83,7 @@ public extension PEndpoint{
                 print("Header: \(headers.dictionary.toJSONString())")
             }
             print("Method: \(method.rawValue)")
-            if let parameters = parameters?.parameters,
+            if let parameters = parameters?.getParameters(),
                parameters.count > 0{
                 print("Parameters: \(parameters.toJSONString())")
             }
@@ -93,7 +93,7 @@ public extension PEndpoint{
         PWeb.shared.runningRequests += 1
         AF.request(url,
                 method: method,
-                parameters: parameters?.parameters,
+                parameters: parameters?.getParameters(),
                 encoding: parameterEncoding,
                 headers: headers).downloadProgress(closure: { (progress) in
                 //If the developer provided a callback for progress,
@@ -105,7 +105,7 @@ public extension PEndpoint{
                     }
                 }
         }).responseJSON(completionHandler: { (response) in
-            self.handleResponse(parameters: parameters?.parameters,
+            self.handleResponse(parameters: parameters?.getParameters(),
                                     response: response,
                                     progressCallback: progressCallback,
                                     completion: completion)
