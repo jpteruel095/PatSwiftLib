@@ -18,7 +18,7 @@ public protocol PEndpoint{
     typealias RequestCompletionMultipleClosure = ([ResultModel], Error?) -> Void
     
     associatedtype ResultModel
-    associatedtype ParameterType: PParameters = DefaultPParameter
+    associatedtype ParameterType: PParameters
     
     // MARK: Route properties
     var path: String { get }
@@ -43,6 +43,16 @@ public protocol PEndpoint{
 public extension PEndpoint where Self: PParameters, ParameterType == Self{
     var parameters: ParameterType? {
         return self
+    }
+}
+
+public protocol PSEndpoint: PEndpoint where ParameterType == DefaultPParameter{
+    
+}
+
+public extension PSEndpoint{
+    var parameters: DefaultPParameter?{
+        return nil
     }
 }
 
