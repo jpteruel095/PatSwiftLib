@@ -26,5 +26,9 @@ open class PWeb{
         self.authHeaderClosure = authHeaderClosure
     }
     
-    
+    public var runningRequests = 0{
+        didSet{
+            NSLog("Running \(runningRequests) requests")
+        }
+    }
 }

@@ -89,7 +89,8 @@ public extension PRequest{
             }
         }
         
-        //Starts executing the request in hear
+        //Starts executing the request in here
+        PWeb.shared.runningRequests += 1
         AF.request(url,
                 method: method,
                 parameters: parameters,
@@ -139,19 +140,23 @@ public extension PRequest{
             //so better handle it in this block
             if let statusCode = response.response?.statusCode{
                 print("Status \(statusCode)")
-                if statusCode == 404{
-                    // handle 404
-                    return
-                }
-                else if statusCode == 401{
-                    // handle 401
-                    return
-                }
-                else if statusCode == 403{
-                    // handle 403
-                }
-                else if statusCode == 500{
-                    // handle 500
+                if statusCode != 200{
+                    if statusCode == 404{
+                        // handle 404
+                        PWeb.shared.runningRequests -= 1
+                        return
+                    }
+                    else if statusCode == 401{
+                        // handle 401
+                        PWeb.shared.runningRequests -= 1
+                        return
+                    }
+                    else if statusCode == 403{
+                        // handle 403
+                    }
+                    else if statusCode == 500{
+                        // handle 500
+                    }
                 }
             }
             
@@ -168,6 +173,7 @@ public extension PRequest{
                     completion?([], error)
                 }
             }
+            PWeb.shared.runningRequests -= 1
         }
     }
     
@@ -180,6 +186,19 @@ public extension PRequest{
 public extension PRequest where ResultModel == JSON{
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized JSON")
+        var json: JSON? = JSON(object)
+        
+        dictionarySearchNestedKeys.forEach { (key) in
+            json = json?.dictionary?[key]
+        }
+        
+        if let array = json?.array{
+           completion?(array, nil)
+       }else if let dictionary = json{
+            completion?([dictionary], nil)
+        }else{
+            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+        }
         completion?([ResultModel(object)], nil)
     }
 }
@@ -212,4 +231,3 @@ public extension PRequest where ResultModel: Any & Mappable{
         }
     }
 }
-
