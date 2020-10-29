@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.name             = 'PatSwiftLib'
   s.version          = '0.1.1'
   s.summary          = 'A set of helpers for API and other UI functionalities to shorten development time.'
-  s.swift_versions   = '5.0'
+  s.swift_versions   = '5'
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
 #   * Try to keep it short, snappy and to the point.
@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-   s.dependency 'Alamofire', '~> 5.2'
-   s.dependency 'SwiftyJSON', '~> 5.0.0'
-   s.dependency 'ObjectMapper', '~> 4.2.0'
+   s.dependency 'Alamofire', '~> 5'
+   s.dependency 'SwiftyJSON', '~> 5'
+   s.dependency 'ObjectMapper', '~> 4'
 end
