@@ -13,11 +13,12 @@ public typealias OptionalParameters = [String: Any?]
 public typealias DefaultModel = JSON
 public typealias WebMethod = HTTPMethod
 
-public protocol PRequest{
+public protocol PEndpoint{
     typealias RequestCompletionSingleClosure = (ResultModel?, Error?) -> Void
     typealias RequestCompletionMultipleClosure = ([ResultModel], Error?) -> Void
     
     associatedtype ResultModel
+    associatedtype ParameterType: PParameters = DefaultPParameter
     
     // MARK: Route properties
     var path: String { get }
@@ -26,10 +27,8 @@ public protocol PRequest{
     var requiresAuth: Bool { get }
     var additionalHeadersClosure: (() -> [HTTPHeader])? { get }
     
-    // MARK: Parameters customization
-    var excludedKeys: [String] { get }
-    var includedKeys: [String] { get }
-    var additionalParameters: OptionalParameters { get }
+    // MARK: Parameters
+    var parameters: ParameterType? { get }
     
     // MARK: Request Handlers
     var dictionarySearchNestedKeys: [String] { get }
@@ -41,7 +40,7 @@ public protocol PRequest{
     var shouldLogResponse: Bool { get }
 }
 
-public extension PRequest{
+public extension PEndpoint{
     // MARK: Route Extension
     var method: HTTPMethod { .get }
     var encoding: ParameterEncoding? { nil }
@@ -50,6 +49,7 @@ public extension PRequest{
     
     // MARK: Request Handlers
     var dictionarySearchNestedKeys: [String] { [] }
+    
     
     // MARK: Request Logging
     var shouldLog: Bool { true }

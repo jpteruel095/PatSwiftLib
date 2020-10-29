@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'PatSwiftLib'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'A set of helpers for API and other UI functionalities to shorten development time.'
   s.swift_versions   = '5'
 # This description is used to generate tags and improve search results.

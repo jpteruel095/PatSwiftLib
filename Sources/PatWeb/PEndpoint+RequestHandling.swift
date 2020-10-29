@@ -1,5 +1,5 @@
 //
-//  PRequest+RequestHandling.swift
+//  PEndpoint+RequestHandling.swift
 //  PatSwiftLib
 //
 //  Created by John Patrick Teruel on 10/25/20.
@@ -9,7 +9,7 @@ import Alamofire
 import SwiftyJSON
 import ObjectMapper
 
-public extension PRequest{
+public extension PEndpoint{
     func request(){
         requestArrayWithProgress()
     }
@@ -83,7 +83,7 @@ public extension PRequest{
                 print("Header: \(headers.dictionary.toJSONString())")
             }
             print("Method: \(method.rawValue)")
-            if let parameters = parameters,
+            if let parameters = parameters?.parameters,
                parameters.count > 0{
                 print("Parameters: \(parameters.toJSONString())")
             }
@@ -93,7 +93,7 @@ public extension PRequest{
         PWeb.shared.runningRequests += 1
         AF.request(url,
                 method: method,
-                parameters: parameters,
+                parameters: parameters?.parameters,
                 encoding: parameterEncoding,
                 headers: headers).downloadProgress(closure: { (progress) in
                 //If the developer provided a callback for progress,
@@ -105,7 +105,7 @@ public extension PRequest{
                     }
                 }
         }).responseJSON(completionHandler: { (response) in
-            self.handleResponse(parameters: parameters,
+            self.handleResponse(parameters: parameters?.parameters,
                                     response: response,
                                     progressCallback: progressCallback,
                                     completion: completion)
@@ -197,7 +197,7 @@ public extension PRequest{
     }
 }
 
-public extension PRequest where ResultModel == JSON{
+public extension PEndpoint where ResultModel == JSON{
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized JSON")
         var json: JSON? = JSON(object)
@@ -216,7 +216,7 @@ public extension PRequest where ResultModel == JSON{
     }
 }
 
-public extension PRequest where ResultModel: Any & Mappable{
+public extension PEndpoint where ResultModel: Any & Mappable{
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized mappable")
         var json: JSON? = JSON(object)

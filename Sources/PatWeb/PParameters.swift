@@ -1,13 +1,21 @@
 //
-//  PRequest+Parameters.swift
+//  PParameters.swift
 //  PatSwiftLib
 //
-//  Created by John Patrick Teruel on 10/25/20.
+//  Created by John Patrick Teruel on 10/29/20.
 //
 
 import Alamofire
 
-public extension PRequest{
+public protocol PParameters {
+    // MARK: Parameters customization
+    var excludedKeys: [String] { get }
+    var includedKeys: [String] { get }
+    var additionalParameters: OptionalParameters { get }
+}
+
+
+public extension PParameters{
     // MARK: Request Parameters Extension
     var excludedKeys: [String] {
         get{
@@ -63,4 +71,8 @@ public extension PRequest{
         let additional = additionalParameters.compactMapValues({$0})
         return parameters.merging(additional){ _, new in new }
     }
+}
+
+public struct DefaultPParameter: PParameters{
+    
 }
