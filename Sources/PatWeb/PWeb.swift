@@ -6,9 +6,13 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 public typealias AuthHeaderClosure = () -> String?
-public typealias StatusN200Handler = (Int) -> Bool
+public typealias StatusN200DecisionHandler = (StatusN200Decision) -> Void
+public typealias StatusCode = Int
+public typealias ResponseResultJSON = JSON
+public typealias StatusN200Handler = (PRoute, ResponseResultJSON?, StatusCode, @escaping StatusN200DecisionHandler) -> Bool
 open class PWeb{
     public static var shared = PWeb(defaults: PWebDefaults(),
                                     authHeaderClosure: {""},
@@ -39,4 +43,11 @@ open class PWeb{
             NSLog("Running \(runningRequests) requests")
         }
     }
+}
+
+public enum StatusN200Decision {
+    case proceed
+    case complete
+    case `repeat`
+    case error(error: Error)
 }

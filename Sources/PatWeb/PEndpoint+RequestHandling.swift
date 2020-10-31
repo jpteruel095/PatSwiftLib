@@ -140,9 +140,34 @@ public extension PEndpoint{
             //so better handle it in this block
             if let statusCode = response.response?.statusCode{
                 print("Status \(statusCode)")
+                
+                var responseResultJSON: JSON?
+                do{
+                    responseResultJSON = JSON(try response.result.get())
+                }catch{
+                    completion?([], error)
+                }
+                
                 if statusCode != 200{
+                    let decisionHandler: StatusN200DecisionHandler = { decision in
+                        switch decision {
+                        case .proceed:
+                            break
+                        case .complete:
+                            completion?([], nil)
+                            break
+                        case .repeat:
+                            self.requestArrayWithProgress(progressCallback,
+                                                          completion: completion)
+                            break
+                        case .error(let err):
+                            completion?([], err)
+                            break
+                        }
+                    }
+                    
                     if let handler = PWeb.shared.statusN200Handler,
-                       handler(statusCode){
+                       handler(self, responseResultJSON, statusCode, decisionHandler){
                         PWeb.shared.runningRequests -= 1
                         return
                     }

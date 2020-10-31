@@ -13,19 +13,22 @@ public typealias OptionalParameters = [String: Any?]
 public typealias DefaultModel = JSON
 public typealias WebMethod = HTTPMethod
 
-public protocol PEndpoint{
-    typealias RequestCompletionSingleClosure = (ResultModel?, Error?) -> Void
-    typealias RequestCompletionMultipleClosure = ([ResultModel], Error?) -> Void
-    
-    associatedtype ResultModel
-    associatedtype ParameterType: PParameters
-    
+public protocol PRoute{
     // MARK: Route properties
     var path: String { get }
     var method: WebMethod { get }
     var encoding: ParameterEncoding? { get }
     var requiresAuth: Bool { get }
     var additionalHeadersClosure: (() -> [HTTPHeader])? { get }
+}
+
+public protocol PEndpoint: PRoute{
+    typealias RequestCompletionSingleClosure = (ResultModel?, Error?) -> Void
+    typealias RequestCompletionMultipleClosure = ([ResultModel], Error?) -> Void
+    
+    associatedtype ResultModel
+    associatedtype ParameterType: PParameters
+    
     
     // MARK: Parameters
     var parameters: ParameterType? { get }
