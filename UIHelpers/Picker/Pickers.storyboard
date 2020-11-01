@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Date Picker View Controller-->
+        <scene sceneID="k7u-sQ-uxB">
+            <objects>
+                <viewController storyboardIdentifier="datePickerVC" id="d6O-5v-zS3" customClass="DatePickerViewController" customModule="RIGHT_CHOICE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xJg-UX-egJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZl-rr-Tnf">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="z4I-kW-yZU" appends="YES" id="B6x-nm-XSa"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JJC-Jw-h5Z" userLabel="Picker Container">
+                                <rect key="frame" x="0.0" y="896" width="414" height="313.5"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIP-oV-INd">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="Zvf-9a-IEA"/>
+                                        </constraints>
+                                        <items>
+                                            <barButtonItem systemItem="cancel" id="Sqv-Hz-dFt">
+                                                <connections>
+                                                    <action selector="didTapCancelButton:" destination="d6O-5v-zS3" id="6Ja-KP-TqZ"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="aQx-Jc-QGA"/>
+                                            <barButtonItem systemItem="done" id="ugK-K4-AhO">
+                                                <connections>
+                                                    <action selector="didTopDoneButton:" destination="d6O-5v-zS3" id="QaR-YL-MnU"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </items>
+                                    </toolbar>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="2qY-qk-8LZ">
+                                        <rect key="frame" x="0.0" y="44" width="414" height="269.5"/>
+                                    </datePicker>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="2qY-qk-8LZ" firstAttribute="leading" secondItem="JJC-Jw-h5Z" secondAttribute="leading" id="BFX-56-Qm1"/>
+                                    <constraint firstAttribute="bottom" secondItem="2qY-qk-8LZ" secondAttribute="bottom" id="ZFs-gZ-2eM"/>
+                                    <constraint firstItem="QIP-oV-INd" firstAttribute="top" secondItem="JJC-Jw-h5Z" secondAttribute="top" symbolic="YES" id="bkR-Ik-I0C"/>
+                                    <constraint firstAttribute="trailing" secondItem="2qY-qk-8LZ" secondAttribute="trailing" id="i9W-JL-gXP"/>
+                                    <constraint firstAttribute="trailing" secondItem="QIP-oV-INd" secondAttribute="trailing" symbolic="YES" id="n0z-Zj-sLZ"/>
+                                    <constraint firstItem="QIP-oV-INd" firstAttribute="leading" secondItem="JJC-Jw-h5Z" secondAttribute="leading" symbolic="YES" id="oOD-ED-tmc"/>
+                                    <constraint firstItem="2qY-qk-8LZ" firstAttribute="top" secondItem="QIP-oV-INd" secondAttribute="bottom" symbolic="YES" id="zBe-Im-0gR"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="WPq-H2-QYY"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="EZl-rr-Tnf" firstAttribute="leading" secondItem="WPq-H2-QYY" secondAttribute="leading" id="0p7-5F-7b8"/>
+                            <constraint firstItem="WPq-H2-QYY" firstAttribute="trailing" secondItem="EZl-rr-Tnf" secondAttribute="trailing" id="BTq-yV-KVQ"/>
+                            <constraint firstItem="JJC-Jw-h5Z" firstAttribute="leading" secondItem="xJg-UX-egJ" secondAttribute="leading" id="R2u-bb-Bya"/>
+                            <constraint firstItem="WPq-H2-QYY" firstAttribute="bottom" secondItem="EZl-rr-Tnf" secondAttribute="bottom" id="gqu-rz-3Ph"/>
+                            <constraint firstAttribute="bottom" secondItem="JJC-Jw-h5Z" secondAttribute="top" id="lqa-Gi-pJv"/>
+                            <constraint firstItem="JJC-Jw-h5Z" firstAttribute="height" secondItem="xJg-UX-egJ" secondAttribute="height" multiplier="0.35" id="odt-qp-b81"/>
+                            <constraint firstItem="EZl-rr-Tnf" firstAttribute="top" secondItem="WPq-H2-QYY" secondAttribute="top" id="toV-RQ-eNu"/>
+                            <constraint firstItem="WPq-H2-QYY" firstAttribute="trailing" secondItem="JJC-Jw-h5Z" secondAttribute="trailing" id="vsX-2I-psE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="datePicker" destination="2qY-qk-8LZ" id="r6a-wP-QoH"/>
+                        <outlet property="pickerContainer" destination="JJC-Jw-h5Z" id="ThY-hA-hSG"/>
+                        <outlet property="pickerTopConstraint" destination="lqa-Gi-pJv" id="JYb-1T-iTo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7q0-Gg-id1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="z4I-kW-yZU">
+                    <connections>
+                        <action selector="didTapCancelButton:" destination="d6O-5v-zS3" id="7ax-7A-T0t"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="1877" y="842"/>
+        </scene>
+        <!--Picker View Controller-->
+        <scene sceneID="HVI-eb-Z0g">
+            <objects>
+                <viewController storyboardIdentifier="pickerVC" id="p09-9I-jWx" customClass="PickerViewController" customModule="RIGHT_CHOICE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UiP-On-oaG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BaN-Sx-Ec5">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="sh0-Bo-5DZ" appends="YES" id="2hh-at-nmZ"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTA-qN-xdN" userLabel="Picker Container">
+                                <rect key="frame" x="0.0" y="896" width="414" height="313.5"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fA7-04-O1g">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="omx-l8-B6r"/>
+                                        </constraints>
+                                        <items>
+                                            <barButtonItem systemItem="cancel" id="qBb-t0-Xzc">
+                                                <connections>
+                                                    <action selector="didTapCancelButton:" destination="p09-9I-jWx" id="efO-xj-rgU"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="IJh-5d-JD9"/>
+                                            <barButtonItem id="cyw-ZB-Vq2">
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="IEy-GW-KQd"/>
+                                            <barButtonItem systemItem="done" id="uhb-cg-brv">
+                                                <connections>
+                                                    <action selector="didTapDoneButton:" destination="p09-9I-jWx" id="tr1-pZ-39z"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </items>
+                                    </toolbar>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nr6-LF-ple">
+                                        <rect key="frame" x="0.0" y="44" width="414" height="269.5"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="p09-9I-jWx" id="AIh-RW-r5J"/>
+                                            <outlet property="delegate" destination="p09-9I-jWx" id="q1h-xN-CmI"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Nr6-LF-ple" firstAttribute="leading" secondItem="tTA-qN-xdN" secondAttribute="leading" id="6fy-Yg-PTp"/>
+                                    <constraint firstItem="Nr6-LF-ple" firstAttribute="top" secondItem="fA7-04-O1g" secondAttribute="bottom" id="BVq-jF-aTb"/>
+                                    <constraint firstItem="fA7-04-O1g" firstAttribute="top" secondItem="tTA-qN-xdN" secondAttribute="top" symbolic="YES" id="Nql-M9-d9s"/>
+                                    <constraint firstItem="fA7-04-O1g" firstAttribute="leading" secondItem="tTA-qN-xdN" secondAttribute="leading" symbolic="YES" id="Z2B-4B-4rq"/>
+                                    <constraint firstAttribute="bottom" secondItem="Nr6-LF-ple" secondAttribute="bottom" id="oKU-dG-2A6"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nr6-LF-ple" secondAttribute="trailing" id="ucU-XA-i0S"/>
+                                    <constraint firstAttribute="trailing" secondItem="fA7-04-O1g" secondAttribute="trailing" symbolic="YES" id="xBS-Wj-h41"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wCr-Ps-GnA"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="BaN-Sx-Ec5" firstAttribute="leading" secondItem="wCr-Ps-GnA" secondAttribute="leading" id="IfN-cs-ZcI"/>
+                            <constraint firstItem="tTA-qN-xdN" firstAttribute="leading" secondItem="UiP-On-oaG" secondAttribute="leading" id="O9s-fD-6VI"/>
+                            <constraint firstItem="tTA-qN-xdN" firstAttribute="height" secondItem="UiP-On-oaG" secondAttribute="height" multiplier="0.35" id="Ud3-YB-WXk"/>
+                            <constraint firstItem="wCr-Ps-GnA" firstAttribute="bottom" secondItem="BaN-Sx-Ec5" secondAttribute="bottom" id="awv-sj-70K"/>
+                            <constraint firstItem="wCr-Ps-GnA" firstAttribute="trailing" secondItem="BaN-Sx-Ec5" secondAttribute="trailing" id="hkj-8G-vmV"/>
+                            <constraint firstItem="wCr-Ps-GnA" firstAttribute="trailing" secondItem="tTA-qN-xdN" secondAttribute="trailing" id="lWF-fN-Xxm"/>
+                            <constraint firstAttribute="bottom" secondItem="tTA-qN-xdN" secondAttribute="top" id="nRJ-HO-vou"/>
+                            <constraint firstItem="BaN-Sx-Ec5" firstAttribute="top" secondItem="wCr-Ps-GnA" secondAttribute="top" id="r04-Yt-1SO"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="doneBarButtonItem" destination="uhb-cg-brv" id="ZIm-7y-cms"/>
+                        <outlet property="pickerContainer" destination="tTA-qN-xdN" id="PaA-ZD-4ar"/>
+                        <outlet property="pickerTopConstraint" destination="nRJ-HO-vou" id="DkC-tr-vq5"/>
+                        <outlet property="pickerView" destination="Nr6-LF-ple" id="1eA-Ri-Ln6"/>
+                        <outlet property="titleBarButtonItem" destination="cyw-ZB-Vq2" id="wpN-tB-40H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lsJ-Jr-lmx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="sh0-Bo-5DZ">
+                    <connections>
+                        <action selector="didTapCancelButton:" destination="p09-9I-jWx" id="Byl-Nw-DB8"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="2689.8550724637685" y="841.74107142857144"/>
+        </scene>
+        <!--Selection Search View Controller-->
+        <scene sceneID="TXS-Uy-RtM">
+            <objects>
+                <viewController storyboardIdentifier="selectionSearchVC" id="piX-1L-1D9" customClass="SelectionSearchViewController" customModule="RIGHT_CHOICE" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z0X-jc-rBg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MUn-K8-drg">
+                                <rect key="frame" x="0.0" y="100" width="414" height="762"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="piX-1L-1D9" id="uJQ-tf-6gv"/>
+                                    <outlet property="delegate" destination="piX-1L-1D9" id="q9c-bf-JqK"/>
+                                </connections>
+                            </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="iCk-fi-KOY">
+                                <rect key="frame" x="0.0" y="44" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <connections>
+                                    <outlet property="delegate" destination="piX-1L-1D9" id="beB-H6-Id2"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="WSa-KB-YRG"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="iCk-fi-KOY" firstAttribute="leading" secondItem="WSa-KB-YRG" secondAttribute="leading" id="2Zg-N7-snd"/>
+                            <constraint firstItem="iCk-fi-KOY" firstAttribute="top" secondItem="WSa-KB-YRG" secondAttribute="top" id="4BS-XZ-eAa"/>
+                            <constraint firstItem="MUn-K8-drg" firstAttribute="leading" secondItem="WSa-KB-YRG" secondAttribute="leading" id="6aw-3E-oC6"/>
+                            <constraint firstItem="WSa-KB-YRG" firstAttribute="bottom" secondItem="MUn-K8-drg" secondAttribute="bottom" id="F0Z-nF-oqz"/>
+                            <constraint firstItem="MUn-K8-drg" firstAttribute="top" secondItem="iCk-fi-KOY" secondAttribute="bottom" id="GTR-Nz-2yD"/>
+                            <constraint firstItem="iCk-fi-KOY" firstAttribute="trailing" secondItem="WSa-KB-YRG" secondAttribute="trailing" id="aff-SU-MPj"/>
+                            <constraint firstItem="WSa-KB-YRG" firstAttribute="trailing" secondItem="MUn-K8-drg" secondAttribute="trailing" id="kwY-wv-KhA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="fFg-Nk-UjE"/>
+                    <connections>
+                        <outlet property="searchBar" destination="iCk-fi-KOY" id="80S-mS-H4b"/>
+                        <outlet property="tableView" destination="MUn-K8-drg" id="T6f-zZ-5sb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ger-i6-R61" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1877" y="1513"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
