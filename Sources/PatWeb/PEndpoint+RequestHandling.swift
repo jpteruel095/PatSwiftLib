@@ -154,6 +154,7 @@ public extension PEndpoint{
                         case .proceed:
                             break
                         case .complete:
+                            PWeb.shared.runningRequests -= 1
                             completion?([], nil)
                             break
                         case .repeat:
@@ -161,6 +162,7 @@ public extension PEndpoint{
                                                           completion: completion)
                             break
                         case .error(let err):
+                            PWeb.shared.runningRequests -= 1
                             completion?([], err)
                             break
                         }
@@ -168,7 +170,6 @@ public extension PEndpoint{
                     
                     if let handler = PWeb.shared.statusN200Handler,
                        handler(self, responseResultJSON, statusCode, decisionHandler){
-                        PWeb.shared.runningRequests -= 1
                         return
                     }
                 }
