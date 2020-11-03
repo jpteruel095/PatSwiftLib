@@ -174,6 +174,7 @@ public extension PEndpoint{
                 }
             }
             
+            PWeb.shared.runningRequests -= 1
             switch response.result{
             case .success(let json):
                 self.serializeResponse(with: json, completion: completion)
@@ -187,7 +188,6 @@ public extension PEndpoint{
                     completion?([], error)
                 }
             }
-            PWeb.shared.runningRequests -= 1
         }
     }
     
