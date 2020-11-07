@@ -12,7 +12,7 @@
         <!--Date Picker View Controller-->
         <scene sceneID="k7u-sQ-uxB">
             <objects>
-                <viewController storyboardIdentifier="datePickerVC" id="d6O-5v-zS3" customClass="DatePickerViewController" customModule="RIGHT_CHOICE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="datePickerVC" id="d6O-5v-zS3" customClass="DatePickerViewController" customModule="PatSwiftLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xJg-UX-egJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -93,7 +93,7 @@
         <!--Picker View Controller-->
         <scene sceneID="HVI-eb-Z0g">
             <objects>
-                <viewController storyboardIdentifier="pickerVC" id="p09-9I-jWx" customClass="PickerViewController" customModule="RIGHT_CHOICE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pickerVC" id="p09-9I-jWx" customClass="PickerViewController" customModule="PatSwiftLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UiP-On-oaG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -181,10 +181,10 @@
             </objects>
             <point key="canvasLocation" x="2689.8550724637685" y="841.74107142857144"/>
         </scene>
-        <!--Selection Search View Controller-->
+        <!--Search Picker View Controller-->
         <scene sceneID="TXS-Uy-RtM">
             <objects>
-                <viewController storyboardIdentifier="selectionSearchVC" id="piX-1L-1D9" customClass="SelectionSearchViewController" customModule="RIGHT_CHOICE" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="searchPickerVC" id="piX-1L-1D9" customClass="SearchPickerViewController" customModule="PatSwiftLib" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Z0X-jc-rBg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

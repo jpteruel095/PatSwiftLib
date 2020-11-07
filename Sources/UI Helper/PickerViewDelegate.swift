@@ -45,4 +45,32 @@ public extension PickerDelegate where Self: UIViewController{
             self.present(pickerVC, animated: true, completion: nil)
         }
     }
+    
+    func openSearchPicker<T: PickerSelectionItem>(withTitle title: String?,
+                          dataSource: [T],
+                          selectionAction:@escaping((T?) -> Void),
+                          searchVCConfiguration: ((SearchPickerViewController) -> Void)? = nil,
+                          customSearchFilter: (([SelectionData], String?) -> [SelectionData])? = nil){
+        let podBundle = Bundle(for: PickerViewController.self)
+        
+        guard let navVC = self.navigationController else{
+            print("View Controller must have a navigation controller.")
+            return
+        }
+        
+        if let searchPickerVC = UIStoryboard(name: "Pickers", bundle: podBundle).instantiateViewController(withIdentifier: "searchPickerVC") as? SearchPickerViewController{
+            searchPickerVC.modalPresentationStyle = .overFullScreen
+            searchPickerVC.pickerTitle = title
+            searchPickerVC.dataSource = dataSource.map{SelectionData(data: $0,
+                                                                     text: $0.pickerItemTitle)}
+            searchPickerVC.didSelectAction = { data in
+                selectionAction(data as? T)
+            }
+            searchPickerVC.configureSearchVC = searchVCConfiguration
+            searchPickerVC.customizedSearchFilter = customSearchFilter
+            searchPickerVC.navBarWasHidden = navVC.isNavigationBarHidden
+            navVC.setNavigationBarHidden(false, animated: false)
+            navVC.pushViewController(searchPickerVC, animated: true)
+        }
+    }
 }
