@@ -8,6 +8,7 @@
 import Alamofire
 import SwiftyJSON
 import ObjectMapper
+import CoreData
 
 public extension PEndpoint{
     func request(){
@@ -212,7 +213,16 @@ public extension PEndpoint{
     }
 }
 
-public extension PEndpoint where ResultModel == JSON{
+public extension PEndpoint where ResultModel == DefaultModel{
+    var managedObjectContext: NSManagedObjectContext?{
+        get{
+            return nil
+        }
+        set{
+            
+        }
+    }
+    
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized JSON")
         var json: JSON? = JSON(object)
@@ -223,7 +233,7 @@ public extension PEndpoint where ResultModel == JSON{
         
         if let array = json?.array{
            completion?(array, nil)
-       }else if let json = json{
+        }else if let json = json{
             completion?([json], nil)
         }else{
             completion?([], Helpers.makeError(with: "Could not parse JSON!"))
@@ -232,6 +242,15 @@ public extension PEndpoint where ResultModel == JSON{
 }
 
 public extension PEndpoint where ResultModel: Any & Mappable{
+    var managedObjectContext: NSManagedObjectContext?{
+        get{
+            return nil
+        }
+        set{
+            
+        }
+    }
+    
     func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
         print("Serialized mappable")
         var json: JSON? = JSON(object)
@@ -254,6 +273,45 @@ public extension PEndpoint where ResultModel: Any & Mappable{
                 return ResultModel(JSON: rawObject)
             })
             completion?(objects, nil)
+        }else{
+            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+        }
+    }
+}
+
+public extension PEndpoint where ResultModel: PJSONEntityProtocol{
+    func serializeResponse(with object: Any, completion: RequestCompletionMultipleClosure? = nil){
+        print("Serialized mappable")
+        guard let context = managedObjectContext else{
+            completion?([], Helpers.makeError(with: "Context must not be nil"))
+            return
+        }
+        
+        var json: JSON? = JSON(object)
+        
+        dictionarySearchNestedKeys.forEach { (key) in
+            json = json?.dictionary?[key]
+        }
+        
+        if let array = json?.array{
+            do{
+                let objects = try array.compactMap({ json -> ResultModel? in
+                    return try ResultModel.fromSwiftyJSON(json, in: context, strict: true)
+                })
+                completion?(objects, nil)
+            }catch{
+                completion?([], error)
+            }
+        }else if let json = json{
+            do{
+                guard let object = try ResultModel.fromSwiftyJSON(json, in: context, strict: true) else{
+                    completion?([], Helpers.makeError(with: "Could not parse object to \(ResultModel.self)"))
+                    return
+                }
+                completion?([object], nil)
+            }catch{
+                completion?([], error)
+            }
         }else{
             completion?([], Helpers.makeError(with: "Could not parse JSON!"))
         }

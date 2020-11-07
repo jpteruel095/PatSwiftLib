@@ -8,6 +8,7 @@
 import Alamofire
 import SwiftyJSON
 import ObjectMapper
+import CoreData
 
 public typealias OptionalParameters = [String: Any?]
 public typealias DefaultModel = JSON
@@ -41,6 +42,9 @@ public protocol PEndpoint: PRoute{
     var shouldLog: Bool { get }
     var shouldLogRequest: Bool { get }
     var shouldLogResponse: Bool { get }
+    
+    // MARK: Core Data
+    var managedObjectContext: NSManagedObjectContext? { get set }
 }
 
 public extension PEndpoint where Self: PParameters, ParameterType == Self{
