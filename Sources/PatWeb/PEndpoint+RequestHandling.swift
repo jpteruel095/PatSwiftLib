@@ -294,14 +294,19 @@ public extension PEndpoint where ResultModel: PJSONEntityProtocol{
         }
         
         if let array = json?.array{
+            var objects: [ResultModel] = []
+            var err: Error?
             do{
-                let objects = try array.compactMap({ json -> ResultModel? in
-                    return try ResultModel.fromSwiftyJSON(json, in: context, strict: true)
-                })
-                completion?(objects, nil)
+                try array.forEach { (json) in
+                    if let object = try ResultModel.fromSwiftyJSON(json, in: context, strict: true){
+                        objects.append(object)
+                    }
+                }
             }catch{
-                completion?([], error)
+                err = error
             }
+            
+            completion?(objects, err)
         }else if let json = json{
             do{
                 guard let object = try ResultModel.fromSwiftyJSON(json, in: context, strict: true) else{
