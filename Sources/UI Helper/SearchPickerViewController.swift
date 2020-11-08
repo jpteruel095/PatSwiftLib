@@ -47,6 +47,7 @@ public class SearchPickerViewController: UIViewController {
         super.viewDidLoad()
 
         configureSearchVC?(self)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -67,13 +68,14 @@ extension SearchPickerViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let tableCellClosure = customizedTableCell else{
-            let cell = UITableViewCell()
-            cell.textLabel?.font = UIFont(name: "Lato-Bold", size: 18.0)
-            cell.textLabel?.text = filteredDataSource[indexPath.row].text
-            return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell") else{
+            fatalError("Default cell not configured")
         }
-        return tableCellClosure(tableView, filteredDataSource[indexPath.row].data)
+        cell.textLabel?.text = filteredDataSource[indexPath.row].text
+        return cell
+//        guard let tableCellClosure = customizedTableCell else{
+//        }
+//        return tableCellClosure(tableView, filteredDataSource[indexPath.row].data)
     }
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
