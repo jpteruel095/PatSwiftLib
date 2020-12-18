@@ -47,12 +47,14 @@ public protocol PEndpoint: PRoute{
     var managedObjectContext: NSManagedObjectContext? { get set }
 }
 
+// If the object is the parameter itself
 public extension PEndpoint where Self: PParameters, ParameterType == Self{
     var parameters: ParameterType? {
         return self
     }
 }
 
+// Without specifying the parameter
 public protocol PSEndpoint: PEndpoint where ParameterType == DefaultPParameter{
     
 }
@@ -122,4 +124,21 @@ public extension PEndpoint{
             }
         }
     }
+}
+
+public struct UploadFileRequest{
+    public let data: Data
+    public let parameterkey: String
+    public let filename: String
+    
+    public init(data: Data, parameterkey: String, filename: String) {
+        self.data = data
+        self.parameterkey = parameterkey
+        self.filename = filename
+    }
+}
+
+// Upload Endpoint
+public protocol PUploadEndpoint: PEndpoint{
+    
 }

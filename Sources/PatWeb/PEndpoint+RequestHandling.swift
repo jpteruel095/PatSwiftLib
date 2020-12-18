@@ -56,6 +56,7 @@ public extension PEndpoint{
                                    completion: @escaping RequestCompletionMultipleClosure){
         self.requestArrayWithProgress(progressCallback, completion: completion)
     }
+    
     /**
      Calls the request for the specified Endpoint
      - parameters:
@@ -113,7 +114,7 @@ public extension PEndpoint{
         })
     }
     
-    fileprivate func handleResponse(parameters: Parameters? = nil,
+    func handleResponse(parameters: Parameters? = nil,
                                         response: DataResponse<Any, AFError>,
                                         progressCallback:((Progress) -> Void)? = nil,
                                         completion:RequestCompletionMultipleClosure? = nil)
