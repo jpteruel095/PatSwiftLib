@@ -208,7 +208,7 @@ public extension PEndpoint{
         }else if let object = json?.object as? ResultModel{
             completion?([object], nil)
         }else{
-            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+            completion?([], Helpers.makeError(with: "We are currently experiencing technical difficulties. Please try again later."))
         }
         completion?([object as? ResultModel].compactMap({$0}), nil)
     }
@@ -237,7 +237,7 @@ public extension PEndpoint where ResultModel == DefaultModel{
         }else if let json = json{
             completion?([json], nil)
         }else{
-            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+            completion?([], Helpers.makeError(with: "We are currently experiencing technical difficulties. Please try again later."))
         }
     }
 }
@@ -275,7 +275,7 @@ public extension PEndpoint where ResultModel: Any & Mappable{
             })
             completion?(objects, nil)
         }else{
-            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+            completion?([], Helpers.makeError(with: "We are currently experiencing technical difficulties. Please try again later."))
         }
     }
 }
@@ -319,7 +319,7 @@ public extension PEndpoint where ResultModel: PJSONEntityProtocol{
                 completion?([], error)
             }
         }else{
-            completion?([], Helpers.makeError(with: "Could not parse JSON!"))
+            completion?([], Helpers.makeError(with: "We are currently experiencing technical difficulties. Please try again later."))
         }
     }
 }
