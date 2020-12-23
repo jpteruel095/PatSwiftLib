@@ -198,6 +198,20 @@ public extension PEndpoint{
         print("Serialized regular")
         var json: JSON? = JSON(object)
         
+        // add serialized response here
+        if let serializedResponse = json?.serialized(),
+           let error = serializedResponse.getError(){
+            
+            if let handler = PWeb.shared.serializedErrorHandler,
+               handler(self, serializedResponse){
+                return
+            }
+            
+            completion?([], error)
+            return
+        }
+        
+        //otherwise, proceed
         dictionarySearchNestedKeys.forEach { (key) in
             json = json?.dictionary?[key]
         }
@@ -228,6 +242,20 @@ public extension PEndpoint where ResultModel == DefaultModel{
         print("Serialized JSON")
         var json: JSON? = JSON(object)
         
+        // add serialized response here
+        if let serializedResponse = json?.serialized(),
+           let error = serializedResponse.getError(){
+            
+            if let handler = PWeb.shared.serializedErrorHandler,
+               handler(self, serializedResponse){
+                return
+            }
+            
+            completion?([], error)
+            return
+        }
+        
+        //otherwise, proceed
         dictionarySearchNestedKeys.forEach { (key) in
             json = json?.dictionary?[key]
         }
@@ -256,6 +284,20 @@ public extension PEndpoint where ResultModel: Any & Mappable{
         print("Serialized mappable")
         var json: JSON? = JSON(object)
         
+        // add serialized response here
+        if let serializedResponse = json?.serialized(),
+           let error = serializedResponse.getError(){
+            
+            if let handler = PWeb.shared.serializedErrorHandler,
+               handler(self, serializedResponse){
+                return
+            }
+            
+            completion?([], error)
+            return
+        }
+        
+        //otherwise, proceed
         dictionarySearchNestedKeys.forEach { (key) in
             json = json?.dictionary?[key]
         }
@@ -290,6 +332,20 @@ public extension PEndpoint where ResultModel: PJSONEntityProtocol{
         
         var json: JSON? = JSON(object)
         
+        // add serialized response here
+        if let serializedResponse = json?.serialized(),
+           let error = serializedResponse.getError(){
+            
+            if let handler = PWeb.shared.serializedErrorHandler,
+               handler(self, serializedResponse){
+                return
+            }
+            
+            completion?([], error)
+            return
+        }
+        
+        //otherwise, proceed
         dictionarySearchNestedKeys.forEach { (key) in
             json = json?.dictionary?[key]
         }
