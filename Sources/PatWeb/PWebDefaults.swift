@@ -10,6 +10,7 @@ import Foundation
 public struct PWebDefaults {
     var domain = "www.example.com"
     var scheme = "http"
+    var timeout: Double?
     public var host: String{
         "\(scheme)://\(domain)/"
     }

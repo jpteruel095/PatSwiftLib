@@ -92,20 +92,29 @@ public extension PEndpoint{
         
         //Starts executing the request in here
         PWeb.shared.runningRequests += 1
-        AF.request(url,
-                method: method,
-                parameters: parameters?.getParameters(),
-                encoding: parameterEncoding,
-                headers: headers).downloadProgress(closure: { (progress) in
-                //If the developer provided a callback for progress,
-                // the callback will be called through here
-                if let progressCallback = progressCallback{
-                    print("progress: \(progress.fractionCompleted)")
-                    DispatchQueue.main.async {
-                        progressCallback(progress)
-                    }
-                }
-        }).responseJSON(completionHandler: { (response) in
+        
+        var requestModifier: Session.RequestModifier?
+        if let timeout = PWeb.shared.defaults.timeout{
+           requestModifier = { request in
+               request.timeoutInterval = timeout
+           }
+        }
+        let request = AF.request(url,
+                                 method: method,
+                                 parameters: parameters?.getParameters(),
+                                 encoding: parameterEncoding,
+                                 headers: headers,
+                                 requestModifier: requestModifier).downloadProgress(closure: { (progress) in
+                                 //If the developer provided a callback for progress,
+                                 // the callback will be called through here
+                                 if let progressCallback = progressCallback{
+                                     print("progress: \(progress.fractionCompleted)")
+                                     DispatchQueue.main.async {
+                                         progressCallback(progress)
+                                     }
+                                 }
+                         })
+        request.responseJSON(completionHandler: { (response) in
             self.handleResponse(parameters: parameters?.getParameters(),
                                     response: response,
                                     progressCallback: progressCallback,

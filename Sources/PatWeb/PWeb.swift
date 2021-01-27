@@ -19,10 +19,12 @@ open class PWeb{
                                     statusN200Handler: nil)
     public class func configure(domain: String,
                                 scheme: String = "http",
+                                timeout: Double? = nil,
                                 authHeaderClosure: @escaping AuthHeaderClosure,
                                 statusN200Handler: StatusN200Handler?){
         shared = PWeb(defaults: PWebDefaults(domain: domain,
-                                             scheme: scheme),
+                                             scheme: scheme,
+                                             timeout: timeout),
                       authHeaderClosure: authHeaderClosure, statusN200Handler: statusN200Handler)
     }
     
